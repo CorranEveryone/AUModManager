@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 import tkinter as tk
 
 # INIT TK
@@ -7,14 +8,10 @@ root.title('Among Us Mod Manager')
 root.geometry('1000x600+50+50')
 root.resizable(False, False)
 # root.iconbitmap('./assets/pythontutorial.ico')
-root.columnconfigure(0, weight=2)
-root.columnconfigure(1, weight=1)
-root.columnconfigure(2, weight=2)
-root.rowconfigure(0, weight=1)
 
 # ENV
-mods_path = '/home/corran/.steam/debian-installation/steamapps/common/Among Us TOU/BepInEx/plugins/'
-game_executable = ''
+load_dotenv()
+mods_path = os.getenv('MODS_PATH')
 
 # INIT VARIABLES
 enabledvariable = tk.StringVar()
@@ -88,25 +85,27 @@ def disableMod():
 
 # TK Enabled Mods
 enabledframe = tk.Frame(root, width=400, height=600)
-enabledframe.grid(column=0, row=0, padx=0, pady=0, sticky=tk.NS)
+enabledframe.pack(padx=0, pady=0, expand=True, side=tk.LEFT, fill=tk.BOTH)
 enabledlabel = tk.Label(enabledframe, text='Enabled Mods')
 enabledlabel.pack(padx=10, pady=0, side=tk.TOP, fill=tk.X)
 enabledlist = tk.Listbox(enabledframe, listvariable=enabledvariable, height=6)
 enabledlist.pack(padx=10, pady=10, expand=True, fill=tk.BOTH, side=tk.TOP)
 
 # Middle Controls
-controlsframe = tk.Frame(root, width=200)
-controlsframe.grid(column=1, row=0, padx=0, pady=0, sticky=tk.NS)
+controlsframe = tk.Frame(root, width=200, height=600)
+controlsframe.pack(padx=0, pady=0, ipadx=0, ipady=100, expand=True, side=tk.LEFT, fill=tk.BOTH)
+controlsmodlabel = tk.Label(controlsframe, text='Mod List Manager')
+controlsmodlabel.pack(padx=10, pady=20, side=tk.TOP, fill=tk.X)
 controlsenable = tk.Button(controlsframe, text='Enable <', command=enableMod)
-controlsenable.pack(padx=10, pady=0, side=tk.TOP, fill=tk.X)
+controlsenable.pack(padx=10, pady=5, side=tk.TOP, fill=tk.X)
 controlsdisable = tk.Button(controlsframe, text='> Disable', command=disableMod)
-controlsdisable.pack(padx=10, pady=0, side=tk.TOP, fill=tk.X)
+controlsdisable.pack(padx=10, pady=5, side=tk.TOP, fill=tk.X)
 controlsrefresh = tk.Button(controlsframe, text='Refresh', command=refreshMods)
-controlsrefresh.pack(padx=10, pady=0, side=tk.TOP, fill=tk.X)
+controlsrefresh.pack(padx=10, pady=5, side=tk.TOP, fill=tk.X)
 
 # TK Disabled Mods
-disabledframe = tk.Frame(root, width=400)
-disabledframe.grid(column=2, row=0, padx=0, pady=0, sticky=tk.NS)
+disabledframe = tk.Frame(root, width=400, height=600)
+disabledframe.pack(padx=0, pady=0, expand=True, side=tk.LEFT, fill=tk.BOTH)
 disabledlabel = tk.Label(disabledframe, text='Disabled Mods')
 disabledlabel.pack(padx=10, pady=0, side=tk.TOP, fill=tk.X)
 disabledlist = tk.Listbox(disabledframe, listvariable=disabledvariable, height=6)
