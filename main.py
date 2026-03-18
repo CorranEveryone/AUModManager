@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+import subprocess
 import tkinter as tk
 
 # INIT TK
@@ -12,6 +13,8 @@ root.resizable(False, False)
 # ENV
 load_dotenv()
 mods_path = os.getenv('MODS_PATH')
+steam_app_id = os.getenv('STEAM_APP_ID')
+# subprocess.run(["steam", f"steam://rungameid/{app_id}"], check=False)
 
 # INIT VARIABLES
 enabledvariable = tk.StringVar()
@@ -55,7 +58,7 @@ def refreshMods():
     global disabledvariable
     enabledvariable.set(getFormattedModsList('enabled'))
     disabledvariable.set(getFormattedModsList('disabled'))
-    print('refreshed mods')
+    print('Refreshed Mod List')
 refreshMods()
 
 def enableMod():
@@ -82,6 +85,10 @@ def disableMod():
     else:
         print('No Enabled Mod Selected')
     refreshMods()
+    
+def launchGame():
+    print(f'Launching Among Us through steam://rungameid/{steam_app_id}')
+    subprocess.run(["steam", f"steam://rungameid/{steam_app_id}"], check=False)
 
 # TK Enabled Mods
 enabledframe = tk.Frame(root, width=400, height=600)
@@ -102,6 +109,11 @@ controlsdisable = tk.Button(controlsframe, text='> Disable', command=disableMod)
 controlsdisable.pack(padx=10, pady=5, side=tk.TOP, fill=tk.X)
 controlsrefresh = tk.Button(controlsframe, text='Refresh', command=refreshMods)
 controlsrefresh.pack(padx=10, pady=5, side=tk.TOP, fill=tk.X)
+controlsmisclabel = tk.Label(controlsframe, text='Options')
+controlsmisclabel.pack(padx=10, pady=20, side=tk.TOP, fill=tk.X)
+controlslaunch = tk.Button(controlsframe, text='Launch Modded Among Us', command=launchGame)
+controlslaunch.pack(padx=10, pady=5, side=tk.TOP, fill=tk.X)
+
 
 # TK Disabled Mods
 disabledframe = tk.Frame(root, width=400, height=600)
