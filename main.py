@@ -12,9 +12,10 @@ root.resizable(False, False)
 
 # ENV
 load_dotenv()
-mods_path = os.getenv('MODS_PATH')
+game_path = os.getenv('GAME_PATH')
+mods_path = os.path.join(game_path, 'BepInEx/plugins/')
+launch_method = os.getenv('LAUNCH_METHOD')
 steam_app_id = os.getenv('STEAM_APP_ID')
-# subprocess.run(["steam", f"steam://rungameid/{app_id}"], check=False)
 
 # INIT VARIABLES
 enabledvariable = tk.StringVar()
@@ -87,8 +88,11 @@ def disableMod():
     refreshMods()
     
 def launchGame():
-    print(f'Launching Among Us through steam://rungameid/{steam_app_id}')
-    subprocess.run(["steam", f"steam://rungameid/{steam_app_id}"], check=False)
+    if launch_method == 'SteamID':
+        print('Launching Among Us via SteamID')
+        subprocess.run(["steam", f"steam://rungameid/{steam_app_id}"], check=False)
+    elif launch_method == 'Executable':
+        print('Launching Among Us via Executable not handled, ABORTED')
 
 # TK Enabled Mods
 enabledframe = tk.Frame(root, width=400, height=600)
